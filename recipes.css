@@ -1,0 +1,74 @@
+header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #333;
+}
+
+header div {
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+  padding-bottom: 10px;
+}
+
+header div img {
+  height: 70px;
+}
+
+header form {
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 1);
+  padding: 5px;
+}
+
+header form input {
+  padding: 5px;
+  border: none;
+  flex: 1;
+  outline: none;
+}
+
+header form button {
+  padding: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+header form button:hover {
+  background-color: gray;
+}
+
+header form button img {
+  width: 25px;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  background-color: #333;
+}
+
+footer .social {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+footer .social a img {
+  width: 30px;
+  margin: 10px;
+}
+
+footer a {
+  justify-self: center;
+  text-decoration: none;
+  color: #fff;
+}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recipe Book</title>
+    <meta
+      name="description"
+      content="Website that'll change on different screens."
+    />
+    <meta name="author" content="Spencer Ashcraft" />
+    <link rel="stylesheet" href="recipes.css" />
+    <script src="recipes.mjs" defer></script>
+    <script src="main.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <div>
+        <img src="images/images/recipe-book.png" alt="recipe-book-logo" />
+        <h1>Recipe Book</h1>
+      </div>
+      <form action="/search" method="get">
+        <input type="search" id="search" placeholder="Find a Recipe" />
+        <button type="submit">
+          <img src="images/images/search.svg" alt="Search image" />
+        </button>
+      </form>
+    </header>
+    <main>
+      <section id="recipes"></section>
+    </main>
+    <footer>
+      <div class="social">
+        <!-- Social media icons provided under CC from https://www.iconfinder.com/AlfredoCreates  -->
+        <a href="#"
+          ><img src="images/images/instagram_icon.svg" alt="instagram icon"
+        /></a>
+        <a href="#"
+          ><img src="images/images/youtube_icon.svg" alt="youtube icon"
+        /></a>
+        <a href="#"
+          ><img src="images/images/pinterest_icon.svg" alt="pinterest icon"
+        /></a>
+      </div>
+      <a href="https://www.flaticon.com/free-icons/recipe" title="recipe icons"
+        >Recipe icons created by Freepik - Flaticon</a
+      >
+    </footer>
+  </body>
+</html>
