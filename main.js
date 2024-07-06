@@ -1,85 +1,152 @@
-const recipes = [
-  {
-    author: "AllRecipes",
-    url: "https://www.allrecipes.com/recipe/12409/apple-crisp-ii/",
-    isBasedOn: "",
-    cookTime: "45min",
-    datePublished: "2023-10-10",
-    tags: ["dessert"],
-    description:
-      "This apple crisp recipe is a simple yet delicious fall dessert that's great served warm with vanilla ice cream.",
-    image: "./images/apple-crisp.jpg",
-    recipeIngredient: [
-      "10 C apples, cored and sliced",
-      "1 C white sugar",
-      "1 Tbsp white flour",
-      "1 tsp ground cinnamon",
-      "3 Tbsp water",
-      "1 C rolled oats",
-      "1 C Flour",
-      "1 C Brown sugar",
-      "1/4 tsp baking powder",
-      "1/4 tsp baking soda",
-      "1/2 C butter, melted",
-    ],
-    name: "Apple Crisp",
-    prepTime: "30 min",
-    recipeInstructions: [
-      "Preheat the oven to 350 degrees F (175 degrees C).",
-      "Place sliced apples in a 9x13-inch baking dish. Mix white sugar, 1 tablespoon flour, and cinnamon together; sprinkle over apples. Pour water evenly over apples.",
-      "Combine oats, 1 cup flour, brown sugar, baking powder, and baking soda in a large bowl. Add melted butter and mix with a fork until crumbly; sprinkle evenly over apple mixture.",
-      "Bake in the preheated oven until top is golden brown and apples are bubbling around the edges, about 45 minutes.",
-    ],
-    recipeYield: "12 servings",
-    rating: 4,
-  },
-];
+import recipes from "./recipes.mjs";
 
-const recipesSection = document.getElementById("#recipes");
+// Taken from ChatGPT
+function getFont(fontName) {
+  const link = document.createElement("link");
+  link.href = `https://fonts.googleapis.com/css2?family=${fontName.replace(
+    / /g,
+    "+"
+  )}&display=swap`;
+  link.rel = "stylesheet";
+  document.head.appendChild(link);
+}
+getFont("Pacifico");
 
-recipes.forEach((item) => {
+// function getRandom(num) {
+//   return Math.floor(Math.random() * num);
+// }
+
+// function getRandomEntry() {
+//   const random = getRandom(recipes.length);
+//   return recipes[random];
+// }
+
+function filterRecipes(query) {
+  return recipes.filter((recipe) => {
+    const name = recipe.name.toLowerCase();
+    // const ingredients = recipe.ingredients.map((ingredient) =>
+    //   ingredient.toLowerCase()
+    // );
+    const desc = recipe.name.toLowerCase();
+
+    return (
+      name.includes(query) ||
+      // ingredient.includes(query) ||
+      desc.includes(query)
+    );
+  });
+}
+
+function ratingTemplate(rating) {
+  // begin building an html string using the ratings HTML written earlier as a model.
+  let html = `<span
+	class="rating"
+	role="img"
+	aria-label="Rating: ${rating} out of 5 stars"
+>`;
+  for (let i = 0; i < 5; i++) {
+    if (i < rating) {
+      let star = `<span aria-hidden="true" class="icon-star">⭐</span>`;
+      html += star;
+    } else {
+      let star = `<span aria-hidden="true" class="icon-star-empty">☆</span>`;
+      html += star;
+    }
+  }
+  html += `</span>`;
+  // return the html string
+  return html;
+}
+
+function showNoResults() {
+  const noResultsMessage = document.getElementById("noResults");
+  noResultsMessage.classList.remove("hidden");
+}
+
+function hideNoResults() {
+  const noResultsMessage = document.getElementById("noResults");
+  noResultsMessage.classList.add("hidden");
+}
+
+function renderRecipe([item]) {
+  const recipesSection = document.getElementById("recipes");
+
   const recipeContainer = document.createElement("div");
-  recipeContainer.id = "recipeContainer";
+  recipeContainer.classList.add("recipe");
 
-  const tags = document.createElement("div");
+  const imgContainer = document.createElement("div");
+  imgContainer.classList.add("imgContainer");
+
+  const tagsContainer = document.createElement("div");
+  tagsContainer.classList.add("tagsContainer");
 
   item.tags.forEach((tag) => {
     const tagElement = document.createElement("span");
     tagElement.textContent = tag;
     tagElement.className = "tag";
-    tags.appendChild(tagElement);
+    tagElement.style.margin = "5px";
+    tagElement.style.padding = "5px";
+    tagElement.style.border = "2px solid black";
+    tagElement.style.fontWeight = "bold";
+    tagsContainer.appendChild(tagElement);
   });
 
-  const name = document.createElement("h3");
-  const rating = document.createElement("div");
-  rating.innerHTML = `<span
-	class="rating"
-	role="img"
-	aria-label="Rating: 4 out of 5 stars"
->
-	<span aria-hidden="true" class="icon-star">⭐</span>
-	<span aria-hidden="true" class="icon-star">⭐</span>
-	<span aria-hidden="true" class="icon-star">⭐</span>
-	<span aria-hidden="true" class="icon-star-empty">⭐</span>
-	<span aria-hidden="true" class="icon-star-empty">☆</span>
-</span>`;
-
-  const desc = document.createElement("h3");
-  const img = document.createElement("img");
-
+  const name = document.createElement("h2");
   name.textContent = item.name;
-  rating.textContent = item.rating;
+  name.style.color = "blue";
+  name.style.fontFamily = "'Pacifico', cursive";
+
+  const rating = document.createElement("p");
+  rating.className = "recipe__ratings";
+  rating.innerHTML = ratingTemplate(item.rating);
+
+  const desc = document.createElement("p");
+  desc.className = "recipe__description";
   desc.textContent = item.description;
 
-  img.src = item.imgSrc;
-  img.alt = item.imgAlt;
+  const img = document.createElement("img");
+  img.src = item.image;
+  img.alt = `Image of ${item.name}`;
+  img.style.width = "400px";
+  img.style.height = "auto";
+  img.style.margin = "0 10px";
+  img.style.borderRadius = "10px";
+  img.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
 
-  recipesSection.appendChild(recipeContainer);
-  recipeContainer.appendChild(tags);
+  recipeContainer.appendChild(tagsContainer);
   recipeContainer.appendChild(name);
   recipeContainer.appendChild(rating);
   recipeContainer.appendChild(desc);
-  recipeContainer.appendChild(img);
 
-  books.appendChild(bookContainer);
+  imgContainer.appendChild(img);
+
+  recipesSection.appendChild(recipeContainer);
+  recipesSection.appendChild(imgContainer);
+}
+
+function init(query) {
+  // get a random recipe
+  const selectedRecipes = filterRecipes(query);
+  console.log(selectedRecipes);
+  const sortedRecipes = selectedRecipes.sort((a, b) =>
+    a.name.localeCompare(b.name)
+  );
+
+  if (sortedRecipes.length > 0) {
+    hideNoResults();
+    sortedRecipes.forEach(function (recipe) {
+      renderRecipe([recipe]);
+    });
+  } else {
+    showNoResults();
+  }
+}
+
+document.getElementById("searchButton").addEventListener("click", (event) => {
+  event.preventDefault();
+  console.log("button clicked");
+  const searchInput = document.getElementById("searchInput").value;
+  const query = searchInput.toLowerCase();
+
+  init(query);
 });

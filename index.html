@@ -10,36 +10,36 @@
     />
     <meta name="author" content="Spencer Ashcraft" />
     <link rel="stylesheet" href="recipes.css" />
-    <script src="recipes.mjs" defer></script>
-    <script src="main.js" defer></script>
+    <script src="recipes.mjs" type="module" defer></script>
+    <script src="main.js" type="module" defer></script>
   </head>
   <body>
     <header>
       <div>
-        <img src="images/images/recipe-book.png" alt="recipe-book-logo" />
+        <img src="images/recipe-book.png" alt="recipe-book-logo" />
         <h1>Recipe Book</h1>
       </div>
-      <form action="/search" method="get">
-        <input type="search" id="search" placeholder="Find a Recipe" />
-        <button type="submit">
-          <img src="images/images/search.svg" alt="Search image" />
+      <form id="searchForm" action="/search" method="get">
+        <input type="search" id="searchInput" placeholder="Find a Recipe" />
+        <button type="button" id="searchButton">
+          <img src="images/search.svg" alt="Search image" />
         </button>
       </form>
     </header>
     <main>
-      <section id="recipes"></section>
+      <section id="recipes">
+        <p id="noResults" class="hidden">No Results Found</p>
+      </section>
     </main>
     <footer>
       <div class="social">
         <!-- Social media icons provided under CC from https://www.iconfinder.com/AlfredoCreates  -->
         <a href="#"
-          ><img src="images/images/instagram_icon.svg" alt="instagram icon"
+          ><img src="images/instagram_icon.svg" alt="instagram icon"
         /></a>
+        <a href="#"><img src="images/youtube_icon.svg" alt="youtube icon" /></a>
         <a href="#"
-          ><img src="images/images/youtube_icon.svg" alt="youtube icon"
-        /></a>
-        <a href="#"
-          ><img src="images/images/pinterest_icon.svg" alt="pinterest icon"
+          ><img src="images/pinterest_icon.svg" alt="pinterest icon"
         /></a>
       </div>
       <a href="https://www.flaticon.com/free-icons/recipe" title="recipe icons"
