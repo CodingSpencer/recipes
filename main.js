@@ -1,4 +1,4 @@
-import recipes from "./recipes.mjs";
+import { recipes } from "./recipes.mjs";
 
 // Taken from ChatGPT
 function getFont(fontName) {
@@ -12,63 +12,51 @@ function getFont(fontName) {
 }
 getFont("Pacifico");
 
-// function getRandom(num) {
-//   return Math.floor(Math.random() * num);
-// }
+function getRandom(num) {
+  return Math.floor(Math.random() * num);
+}
 
-// function getRandomEntry() {
-//   const random = getRandom(recipes.length);
-//   return recipes[random];
-// }
+function getRandomEntry() {
+  const random = getRandom(recipes.length);
+  return recipes[random];
+}
 
 function filterRecipes(query) {
   return recipes.filter((recipe) => {
     const name = recipe.name.toLowerCase();
-    // const ingredients = recipe.ingredients.map((ingredient) =>
-    //   ingredient.toLowerCase()
-    // );
-    const desc = recipe.name.toLowerCase();
-
-    return (
-      name.includes(query) ||
-      // ingredient.includes(query) ||
-      desc.includes(query)
-    );
+    const desc = recipe.description.toLowerCase();
+    return name.includes(query) || desc.includes(query);
   });
 }
 
 function ratingTemplate(rating) {
-  // begin building an html string using the ratings HTML written earlier as a model.
-  let html = `<span
-	class="rating"
-	role="img"
-	aria-label="Rating: ${rating} out of 5 stars"
->`;
+  let html = `<span class="rating" role="img" aria-label="Rating: ${rating} out of 5 stars">`;
   for (let i = 0; i < 5; i++) {
     if (i < rating) {
-      let star = `<span aria-hidden="true" class="icon-star">⭐</span>`;
-      html += star;
+      html += `<span aria-hidden="true" class="icon-star">⭐</span>`;
     } else {
-      let star = `<span aria-hidden="true" class="icon-star-empty">☆</span>`;
-      html += star;
+      html += `<span aria-hidden="true" class="icon-star-empty">☆</span>`;
     }
   }
   html += `</span>`;
-  // return the html string
   return html;
 }
 
 function showNoResults() {
   const noResultsMessage = document.getElementById("noResults");
-  noResultsMessage.classList.remove("hidden");
+  if (noResultsMessage) {
+    noResultsMessage.classList.remove("hidden");
+  }
 }
 
 function hideNoResults() {
   const noResultsMessage = document.getElementById("noResults");
-  noResultsMessage.classList.add("hidden");
+  if (noResultsMessage) {
+    noResultsMessage.classList.add("hidden");
+  }
 }
 
-function renderRecipe([item]) {
+function renderRecipe(item) {
   const recipesSection = document.getElementById("recipes");
 
   const recipeContainer = document.createElement("div");
@@ -84,10 +72,6 @@ function renderRecipe([item]) {
     const tagElement = document.createElement("span");
     tagElement.textContent = tag;
     tagElement.className = "tag";
-    tagElement.style.margin = "5px";
-    tagElement.style.padding = "5px";
-    tagElement.style.border = "2px solid black";
-    tagElement.style.fontWeight = "bold";
     tagsContainer.appendChild(tagElement);
   });
 
@@ -125,28 +109,34 @@ function renderRecipe([item]) {
 }
 
 function init(query) {
-  // get a random recipe
   const selectedRecipes = filterRecipes(query);
   console.log(selectedRecipes);
   const sortedRecipes = selectedRecipes.sort((a, b) =>
     a.name.localeCompare(b.name)
   );
 
+  const recipesSection = document.getElementById("recipes");
+  recipesSection.innerHTML = ""; // Clear the recipes section
+
   if (sortedRecipes.length > 0) {
     hideNoResults();
     sortedRecipes.forEach(function (recipe) {
-      renderRecipe([recipe]);
+      renderRecipe(recipe);
     });
   } else {
     showNoResults();
   }
 }
 
-document.getElementById("searchButton").addEventListener("click", (event) => {
-  event.preventDefault();
-  console.log("button clicked");
-  const searchInput = document.getElementById("searchInput").value;
-  const query = searchInput.toLowerCase();
+document.addEventListener("DOMContentLoaded", () => {
+  renderRecipe(getRandomEntry());
 
-  init(query);
+  document.getElementById("searchButton").addEventListener("click", (event) => {
+    event.preventDefault();
+    console.log("button clicked");
+    const searchInput = document.getElementById("searchInput").value;
+    const query = searchInput.toLowerCase();
+
+    init(query);
+  });
 });
